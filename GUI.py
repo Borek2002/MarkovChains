@@ -2,7 +2,7 @@ from tkinter import *
 
 from markovChain import MarkovChain
 
-#TEST
+#TEST TEST
 class GUI:
     def __init__(self):
         self.window=Tk()
