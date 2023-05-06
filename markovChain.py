@@ -3,14 +3,14 @@ class MarkovChain:
     wordCases=None
     probability=[]
     words=[]
-    matrixOfProbabilty=[[0 for i in range()] for j in range()]
+    matrixOfProbabilty=[[0 for i in range(26)] for j in range(26)]
     max_lenght=0
 
     def readFile(self):
         file=open("words.txt",'r')
         line=file.readline()
         while(line!=''):
-            self.words.append(line[:len(line)])
+            self.words.append(line[:len(line)-2])
             line=file.readline()
 
     def splitWords(self):
@@ -51,11 +51,12 @@ class MarkovChain:
         self.probability=words
 
 
-        def createMatrix():
-            for i in range(len(words)):
-                for j in range(len(words[i])-1):
-                    #split word to letter
-                    self.matrixOfProbabilty
+    def createMatrix(self,start):
+        for i in range(len(self.words)):
+            word=list(self.words[i])
+            for j in range(start,len(word)-1):
+                self.matrixOfProbabilty[ord(word[j+1])-97][ord(word[j])-97]+=1
+                break
 
 
 
@@ -63,4 +64,5 @@ markov=MarkovChain()
 markov.readFile()
 markov.splitWords()
 markov.getProbalility("a")
-print(markov.probability)
+markov.createMatrix(1)
+print(markov.matrixOfProbabilty)
