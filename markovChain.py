@@ -11,7 +11,7 @@ class MarkovChain:
         file=open("words.txt",'r')
         line=file.readline()
         while(line!=''):
-            self.words.append(line[:len(line)-2])
+            self.words.append(line[:len(line)-1])
             line=file.readline()
 
 
@@ -55,19 +55,44 @@ class MarkovChain:
 
 
     #generowanie macierzy prawdopodobieństwa dla konretnej głębokości i stanu
-    def createMatrix(self,start,letter):
+    def createMatrix(self,start,letter,word):
         self.matrixOfProbabilty = [[0 for i in range(26)] for j in range(26)]
         for i in range(len(self.words)):
-            word=list(self.words[i])
-            for j in range(start,len(word)-1):
-                if(word[j]==letter):
-                    self.matrixOfProbabilty[ord(word[j+1])-97][ord(word[j])-97]+=1
-                    break
+            if(word in self.words[i]):
+                wordSplit=list(self.words[i])
+                if(start+1>=len(wordSplit)-1 and start>=len(wordSplit)-1):
+                    continue
+                for j in range(start,start+1):
+                    if(wordSplit[j]==letter):
+                        self.matrixOfProbabilty[ord(wordSplit[j+1])-97][ord(wordSplit[j])-97]+=1
+                        break
         total = sum([sum(row) for row in self.matrixOfProbabilty])
         for i in range(len(self.matrixOfProbabilty)):
             for j in range(len(self.matrixOfProbabilty[i])):
                 if(self.matrixOfProbabilty[i][j]!=0):
                     self.matrixOfProbabilty[i][j]/=total
+
+
+    def getTheMostLikelyWord(self,start,letter):
+        theMostLikelyWord=letter
+        self.createMatrix(start,letter,letter)
+        maxValue=-2
+        while(maxValue!=-1):
+            index=-1
+            maxValue = -1
+            for i in range(len(self.matrixOfProbabilty)):
+                if(self.matrixOfProbabilty[i][ord(letter)-97]>maxValue and self.matrixOfProbabilty[i][ord(letter)-97]!=0):
+                    maxValue=self.matrixOfProbabilty[i][ord(letter)-97]
+                    index=i
+            newLetter=""
+            if(index!=-1):
+                newLetter=chr(index+97)
+                theMostLikelyWord+=newLetter
+            start+=1
+            self.createMatrix(start,newLetter,theMostLikelyWord)
+            self.printMatrix(self.matrixOfProbabilty)
+            letter=newLetter
+            print(theMostLikelyWord)
 
 
     @staticmethod
@@ -83,12 +108,7 @@ markov.splitWords()
 markov.getProbalility("a")
 
 
-markov.createMatrix(0,"a")
-matrix1=markov.matrixOfProbabilty
-MarkovChain.printMatrix(matrix1)
-markov.createMatrix(1,"b")
-matrix2=markov.matrixOfProbabilty
-MarkovChain.printMatrix(matrix2)
-markov.createMatrix(2,"o")
+markov.createMatrix(4,"t","t")
 matrix3=markov.matrixOfProbabilty
-MarkovChain.printMatrix(matrix3)
+#MarkovChain.printMatrix(markov.matrixOfProbabilty)
+markov.getTheMostLikelyWord(0,"a")
