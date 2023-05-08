@@ -10,7 +10,7 @@ class GUI:
         self.window.geometry("750x500")
         self.markovChain=MarkovChain()
         self.iterator = 0
-        self.data=self.markovChain.data[self.iterator]
+        self.data=[]
 
 
     def loadWindow(self):
@@ -42,12 +42,12 @@ class GUI:
     def check(self,e):
         typed=self.entry.get()
         if typed=='':
-            self.data=self.markovChain.data[self.iterator]
+            self.data=[]
         else:
             self.data=[]
-            for item in self.markovChain.data[self.iterator]:
-                if typed.lower() in item.lower():
-                    self.data.append(item)
+            words=self.markovChain.writingOutWords(typed)
+
+            self.data.append(words)
         self.update(self.data)
 
 
