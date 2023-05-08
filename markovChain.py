@@ -86,7 +86,6 @@ class MarkovChain:
             if(word == self.words[i][:start+1] and self.words[i][start]==letter):
                 if(wordSplit[start]==letter):
                     self.matrixOfProbabilty[ord(wordSplit[start+1])-97][ord(wordSplit[start])-97]+=1
-                    break
 
         total = sum([sum(row) for row in self.matrixOfProbabilty])
         for i in range(len(self.matrixOfProbabilty)):
@@ -139,4 +138,4 @@ markov.splitWords()
 ## markov.createMatrix(4,"t","t")
 # matrix3=markov.matrixOfProbabilty
 MarkovChain.printMatrix(markov.matrixOfProbabilty)
-markov.getTheMostLikelyWord(1,"el")
+markov.getTheMostLikelyWord(3,"disa")
