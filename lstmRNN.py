@@ -61,7 +61,7 @@ class NeutralNetwork:
     def trainModel(self):
         self.model_lstm = tf.keras.Sequential()
 
-        self.model_lstm.add(LSTM(units=27, input_shape=(self.MAX_LENGTH, 27),
+        self.model_lstm.add(LSTM(units=27*2, input_shape=(self.MAX_LENGTH, 27),
                                  dropout=0.2, recurrent_dropout=0.2, use_bias=True, return_sequences=True,
                                  activation="relu"))
         self.model_lstm.add(TimeDistributed(Dense(units=27, activation="softmax")))
@@ -82,16 +82,16 @@ class NeutralNetwork:
 
 
 nn = NeutralNetwork()
-nn.readData()
-nn.wordToIntWithZero()
+# nn.readData()
+# nn.wordToIntWithZero()
 # nn.encodedCharacters()
-print(nn.xtrain[0])
-print(nn.wordsInInt[0])
-nn.trainModel()
+# print(nn.xtrain[0])
+# print(nn.wordsInInt[0])
+# nn.trainModel()
 filename = 'finalized_model.sav'
-pickle.dump(nn.model_lstm, open(filename, 'wb'))
-letters = "anywh"
-#nn.model_lstm = pickle.load(open(filename, 'rb'))
+#pickle.dump(nn.model_lstm, open(filename, 'wb'))
+letters = "attent"
+nn.model_lstm = pickle.load(open(filename, 'rb'))
 
 
 def predict(letters):
@@ -108,8 +108,11 @@ def predict(letters):
     array_sync_result = argmax_result.numpy()  # Convert TensorFlow tensor to NumPy array
 
     print(array_sync_result)
-    x=letters + str(chr(array_sync_result[0][len(list(letters))] + 96))
-    return x
+    i=len(list(letters))
+    while(array_sync_result[0][i]!=0):
+        letters += str(chr(array_sync_result[0][i] + 96))
+        i+=1
+    return letters
 
 letters = predict(letters)
 print(letters)
