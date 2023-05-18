@@ -77,6 +77,7 @@ class MarkovChain:
     # 5 najbardziej prawdopodobnych słow
 
     #generowanie macierzy prawdopodobieństwa dla konretnej głębokości i stanu
+    #sieć index w tabeli z words.txt gotowe bibioteki sieć rekurencyjna literka po literce fit forward
     def createMatrix(self,start,letter,word):
         self.matrixOfProbabilty = [[0 for i in range(26)] for j in range(26)]
         for i in range(len(self.words)):
