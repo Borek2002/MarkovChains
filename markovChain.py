@@ -113,9 +113,9 @@ class MarkovChain:
                 theMostLikelyWord += newLetter
             start += 1
             self.createMatrix(start, newLetter, theMostLikelyWord)
-            self.printMatrix(self.matrixOfProbabilty)
+            #self.printMatrix(self.matrixOfProbabilty)
             letter = newLetter
-            print(theMostLikelyWord)
+            #print(theMostLikelyWord)
         return theMostLikelyWord
 
     def writingOutWords(self, text):
