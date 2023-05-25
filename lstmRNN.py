@@ -60,7 +60,7 @@ class NeutralNetwork:
     def trainModel(self):
         self.model_lstm = tf.keras.Sequential()
 
-        self.model_lstm.add(LSTM(units=27 * 2, input_shape=(self.MAX_LENGTH, 27),
+        self.model_lstm.add(LSTM(units=128, input_shape=(self.MAX_LENGTH, 27),
                                  dropout=0.2, recurrent_dropout=0.2, use_bias=True, return_sequences=True,
                                  activation="relu"))
         self.model_lstm.add(TimeDistributed(Dense(units=27, activation="softmax")))
@@ -77,7 +77,7 @@ class NeutralNetwork:
             metrics=['mse']
         )
 
-        self.model_lstm.fit(one_hot_resultX, one_hot_resultY, epochs=250, batch_size=32, shuffle=True)
+        self.model_lstm.fit(one_hot_resultX, one_hot_resultY, epochs=70, batch_size=32, shuffle=True)
 
     def predict(self, letters):
         letter_indices = [ord(letter) - 96 for letter in letters]
@@ -102,14 +102,14 @@ class NeutralNetwork:
 
 nn = NeutralNetwork()
 nn.readData()
-# nn.wordToIntWithZero()
+#nn.wordToIntWithZero()
 # nn.encodedCharacters()
 # print(nn.xtrain[0])
 # print(nn.wordsInInt[0])
-# nn.trainModel()
-filename = 'finalized_model.sav'
-# pickle.dump(nn.model_lstm, open(filename, 'wb'))
-letters = "ack"
+#nn.trainModel()
+filename = 'finalized_model128random.sav'
+#pickle.dump(nn.model_lstm, open(filename, 'wb'))
+letters = "re"
 nn.model_lstm = pickle.load(open(filename, 'rb'))
 
 letters = nn.predict(letters)
