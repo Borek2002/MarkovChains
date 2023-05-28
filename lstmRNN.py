@@ -1,14 +1,12 @@
 import pickle
 
-import pandas as pd
-from keras.preprocessing.text import Tokenizer
-from sklearn.model_selection import train_test_split
-from keras.utils import to_categorical
-from tensorflow import keras
-import tensorflow as tf
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, Embedding, LSTM, GlobalMaxPooling1D, SpatialDropout1D, TimeDistributed
+import matplotlib.pyplot as plt
 import numpy as np
+import tensorflow as tf
+from keras.callbacks import TensorBoard
+from keras.layers import Dense, LSTM, TimeDistributed
+
+filename = 'finalized_model_new108e70bs64.sav'
 
 
 class NeutralNetwork:
@@ -66,6 +64,8 @@ class NeutralNetwork:
         self.model_lstm.add(TimeDistributed(Dense(units=27, activation="softmax")))
         self.model_lstm.summary()
 
+        tensorboard_callback = TensorBoard(log_dir='./logs', histogram_freq=1)
+
         one_hot_resultX = tf.one_hot(self.xtrain, depth=27)
         one_hot_resultY = tf.one_hot(self.ytrain, depth=27)
         one_hot_resultX = tf.reshape(one_hot_resultX, (-1, self.MAX_LENGTH, 27))
@@ -77,7 +77,24 @@ class NeutralNetwork:
             metrics=['mse']
         )
 
-        self.model_lstm.fit(one_hot_resultX, one_hot_resultY, epochs=70, batch_size=64, shuffle=True)
+        history = self.model_lstm.fit(one_hot_resultX, one_hot_resultY, epochs=70, batch_size=64, shuffle=True,
+                                      callbacks=[tensorboard_callback])
+
+        # Plot MSE and loss charts
+        plt.plot(history.history['mse'])
+        plt.title('MSE')
+        plt.xlabel('Epoch')
+        plt.ylabel('MSE')
+        plt.savefig('mse_chart_new108e150bs64.png')
+        plt.close()
+
+        # Plot loss chart
+        plt.plot(history.history['loss'])
+        plt.title('Loss')
+        plt.xlabel('Epoch')
+        plt.ylabel('Loss')
+        plt.savefig('loss_chart_new108e150bs64.png')
+        plt.close()
 
     def predict(self, letters):
         letter_indices = [ord(letter) - 96 for letter in letters]
@@ -107,10 +124,8 @@ nn.readData()
 # print(nn.xtrain[0])
 # print(nn.wordsInInt[0])
 #nn.trainModel()
-filename = 'finalized_modelrandomu108e70bs64.sav'
-#pickle.dump(nn.model_lstm, open(filename, 'wb'))
+# pickle.dump(nn.model_lstm, open(filename, 'wb'))
 letters = "re"
 nn.model_lstm = pickle.load(open(filename, 'rb'))
-
 letters = nn.predict(letters)
 print(letters)
