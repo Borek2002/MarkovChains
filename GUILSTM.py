@@ -1,16 +1,18 @@
 from tkinter import *
 
+from lstmRNN import NeutralNetwork
 from markovChain import MarkovChain
 
 
 # TEST TEST
-class GUI:
+class GUILSTM:
     def __init__(self):
         self.window = Tk()
         self.window.title("Markov Chain")
         self.window.geometry("480x480")
         self.markovChain=MarkovChain()
         self.iterator = 0
+        self.lstm=NeutralNetwork()
         self.data = []
 
     def loadWindow(self):
@@ -87,11 +89,11 @@ class GUI:
             print("XD")
             if currentWord[len(currentWord)-1] != ' ':
                 print("typed: ", currentWord)
-                words=self.markovChain.writingOutWords(currentWord)
-                #words = self.lstm.predict(typed)
+                #words=self.markovChain.writingOutWords(currentWord)
+                words = self.lstm.predict(currentWord)
                 self.data.append(words)
         self.update(self.data)
 
 
-app = GUI()
+app = GUILSTM()
 app.loadWindow()
