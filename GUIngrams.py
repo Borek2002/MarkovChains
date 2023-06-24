@@ -94,19 +94,13 @@ class GUI:
             else:
                 sentences_to_complete = len(likely_words)
             for word in likely_words:
-                # completedSentence = self.completeSentence(typed + " " + word, sentences_to_complete)
-                # if completedSentence:
-                #     self.createWordList(completedSentence)
-                # else:
-                #     self.createWordList(typed + " " + word)
+
                 if word != ngrams.end_of_sentence:
                     self.check(e=None, custom_entry=typed + " " + word)
                 else:
                     self.likely_sentences.append(typed)
                     self.createWordList(typed)
 
-        #self.data.append(words[0])
-        #self.update(self.data)
 
     def completeSentence(self, partial_sentence, number_of_sentences):
         possible_sentences = []

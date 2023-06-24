@@ -27,57 +27,6 @@ class MarkovChain:
             for j in range(len(self.words[i])):
                 self.wordCases[j].append(self.words[i][:j + 1])
 
-    # def getProbalility(self,text):
-    #     tempProbability=[[]for j in range(self.max_length)]
-    #     words=[]
-    #
-    #     #prawdopodobieństwo dla każdego stanu
-    #     for i in range(len(text),len(self.wordCases)):
-    #         cases = [case for case in self.wordCases[i] if text in case]
-    #         unique=list(set(cases))
-    #         unique.sort()
-    #         for j in range(len(unique)):
-    #             tempProbability[i].append({"letter": unique[j],"probalility":self.wordCases[i].count(unique[j])/len(cases)})
-    #
-    #     #prawdopodobieństwo wyrazu
-    #     for i in range(len(tempProbability)):
-    #         for j in range(len(tempProbability[i])):
-    #             if "\n" in tempProbability[i][j]["letter"]:
-    #                 words.append({"word": tempProbability[i][j]["letter"],"prob":tempProbability[i][j]["probalility"]})
-    #
-    #     #prawdopodobieństwo końcowe
-    #     for i in range(len(words)):
-    #         for j in range(len(tempProbability)):
-    #             for k in range(len(tempProbability[j])-1):
-    #                 if tempProbability[j][k]["letter"] in words[i]["word"]:
-    #                     words[i]["prob"]*=tempProbability[j][k]["probalility"]
-    #
-    #     for i in range(len(words)):
-    #         words[i]["prob"] *=100.0
-    #
-    #     self.probability=words
-
-    #   a
-    # a
-    # b
-    # c
-
-    #   ab
-    # a
-    # b
-    # c
-
-    #   abc
-    # a
-    # b
-    # c
-
-    # a może drzewko
-
-    # 5 najbardziej prawdopodobnych słow
-
-    # generowanie macierzy prawdopodobieństwa dla konretnej głębokości i stanu
-    # sieć index w tabeli z words.txt gotowe bibioteki sieć rekurencyjna literka po literce fit forward
     def createMatrix(self, start, letter, word):
         self.matrixOfProbabilty = [[0 for i in range(26)] for j in range(26)]
         for i in range(len(self.words)):

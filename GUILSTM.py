@@ -3,8 +3,6 @@ from tkinter import *
 from lstmRNN import NeutralNetwork
 from markovChain import MarkovChain
 
-
-# TEST TEST
 class GUILSTM:
     def __init__(self):
         self.window = Tk()
@@ -31,10 +29,8 @@ class GUILSTM:
 
     def mloop(self):
         self.update(self.data)
-        #self.list.bind("<<ListboxSelect>>", self.fillout)
         self.entry.bind("<KeyRelease>", self.check)
         self.entry.bind("<Right>",self.rightSet)
-        #self.window.bind("<Key>", self.handle_key_press)
         self.window.mainloop()
 
     def handle_key_press(self, event):
@@ -62,9 +58,6 @@ class GUILSTM:
                 self.entry.delete(0, END)
                 self.entry.insert(0, updated_text)
     # event/ when clicked on item on list fill entrybox
-    # def fillout(self, e):
-    #     self.entry.delete(0, END)
-    #     self.entry.insert(0, self.list.get(ANCHOR))
     def fillout(self, e):
         selected_word = self.list.get(ANCHOR)
         if selected_word:
